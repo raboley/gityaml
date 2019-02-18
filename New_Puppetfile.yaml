@@ -1,4 +1,0 @@
-modules:
-  vscode:
-    git: hurontfs@vs-ssh.visualstudio.com:v3/hurontfs/Puppet-Core/vscode
-    ref: Updated_ref_Commit

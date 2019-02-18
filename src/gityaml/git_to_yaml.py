@@ -1,5 +1,7 @@
 import yaml
 import os
+
+
 class GitYaml():
     
     def add_commit_to_file(self, commit):
@@ -21,8 +23,7 @@ class GitYaml():
                     return yaml.load(stream)
                 except yaml.YAMLError as exc:
                     return exc
-        else:
-            print(path + 'does not exist')
+        
     
     def get_yaml_string(self):
         return self._yaml_string
@@ -66,10 +67,10 @@ class GitYaml():
         Returns:
             [string] -- a converted yaml string format ex.
             modules:
-            module1:
+              module1:
                 ref: abcd
                 git: hurontfs@vs-ssh.com/module1
-            module2:
+              module2:
                 ref: efgh
                 git: hurontfs@vs-ssh.com/module2
         """

@@ -24,3 +24,37 @@ make setup
 
 That will create a virtual python environment and install all package dependencies in it. It should also activate the virtual environment in your terminal, so it should now have a (env) at the left, indicating you are in the virtual environment. Virtual environments let you install python packages in a contained environment so that you don't have packages of different versions on your machine interfering with your current development.
 
+## Docker building and setup
+
+This project has two docker images, a base and a dev image. The base image has the bare minimum required to run the app, and the test image has all the test dependencies installed as well. The dev image is based off the base image, so to get everything setup you need to build the base image, then the dev image and then can test the code.
+
+### Base image setup
+
+to build the base image change directory to \base folder and then run docker build.
+
+``` powershell
+cd base
+docker build -t rboley/python-base .
+```
+
+That will create the base image namded rboley/python-base. then to create the dev image.
+
+### Dev image setup
+
+To create the dev image it is pretty much the same, but it will be running from the project root since we need to have access to the src and scripts folders.
+
+``` powershell
+docker build -t gityaml-dev -f docker/dev/dockerfile .
+```
+
+That will build the dev image and name it gityaml-dev which doesn't have a repo in front of it since it is always just going to be a local image. The default state of this image is to run the tests, so next that is what we will do.
+
+### Running the unit/integration tests in the dev image
+
+To run the dev image:
+
+``` powershell
+docker run --rm gityaml-dev
+```
+
+This will run the dev image and execute the unit tests. You should see an output of all the tests that passed and failed.

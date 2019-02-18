@@ -1,0 +1,40 @@
+FROM ubuntu:trusty
+MAINTAINER Russell Boley <rboley@huronconsultinggroup.com>
+
+# prevent dpkg errors
+ENV TERM=xterm-256color
+
+# Install Python runtime, without extra dependencies
+RUN apt-get update \
+  && apt-get install software-properties-common -y \
+  && add-apt-repository ppa:deadsnakes/ppa \
+  && apt-get update \
+  && apt-get install -y \
+  -o APT::Install-Recommend=false -o APT::Install-Suggests=false \
+  python3-pip python3.6 \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3.6 python \
+  && pip3 install --upgrade pip \
+  && pip3 install virtualenv
+
+# RUN apt-get update && \
+#     apt-get install -y \
+#     -o APT::Install-Recommend=false -o APT::Install-Suggests=false \
+#     python3 python-virtualenv \
+#     && cd /usr/local/bin \
+#     && ln -s /usr/bin/python3 python
+    
+
+# Create virtual environment
+# Upgrade PIP in virtual environment to latest version
+RUN virtualenv -p python3 /appenv && \
+    . /appenv/bin/activate && \
+    pip install pip --upgrade
+
+# Add entrypoint script that activates virtual environment and runs the command
+ADD scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+# docker build -t rboley/python-base .
+# docker run --rm rboley/python-base

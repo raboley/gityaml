@@ -1,8 +1,16 @@
-from git_to_yaml import GitYaml
+from gityaml.git_to_yaml import GitYaml
+from gityaml.gitcommit import GitCommit
 
 import os
 import unittest
 from testfixtures import TempDirectory
+
+# Test stub so tests aren't dependent on having a specific commmit
+class GitCommit_Test(GitCommit):
+    def get_hash(self):
+        return '525b2550eb10dcbab2643ebf0417c90a2afe38dc'
+    def get_url(self):
+        return 'https://hurontfs.visualstudio.com/products/_git/GitYaml'
 
 class git_to_yaml_integration(unittest.TestCase):
     
@@ -163,7 +171,7 @@ class git_to_yaml_integration(unittest.TestCase):
         self.assertEqual(result_data, expected_data)
 
     def test_add_commit_to_file_creates_file_if_doesnt_exist(self):
-        path = 'New_Puppetfile.yaml'
+        path = os.path.join(self.d.path, 'New_Puppetfile.yaml')
         git_yaml = GitYaml(path)
         new_commit = { 'vscode': 
                 { 
@@ -176,6 +184,26 @@ class git_to_yaml_integration(unittest.TestCase):
                 {
                     'git': 'hurontfs@vs-ssh.visualstudio.com:v3/hurontfs/Puppet-Core/vscode',
                     'ref': 'Updated_ref_Commit'
+                }
+            }
+        } 
+
+
+        git_yaml.add_commit_to_file(new_commit)
+        result_data = GitYaml(path).get_yaml_data()
+        self.assertEqual(result_data, expected_data)
+
+    def test_commit_and_file_get_created(self):
+        path = os.path.join(self.d.path, 'integration_Puppetfile.yaml')
+        git_yaml = GitYaml(path)
+        git_commit = GitCommit_Test()
+        new_commit = git_commit.new_commit_ref()
+
+        expected_data = { 'modules': 
+            {'GitYaml':
+                {
+                    'git': 'hurontfs@vs-ssh.visualstudio.com:v3/hurontfs/Puppet-Core/GitYaml',
+                    'ref': '525b2550eb10dcbab2643ebf0417c90a2afe38dc'
                 }
             }
         } 

@@ -1,4 +1,4 @@
-from git_to_yaml import GitYaml
+from gityaml.git_to_yaml import GitYaml
 
 import unittest
 from unittest.mock import patch
@@ -6,7 +6,7 @@ from unittest.mock import patch
 class git_to_yaml(unittest.TestCase):
     
 
-    @patch('git_to_yaml.GitYaml.read_yaml_file')
+    @patch('gityaml.git_to_yaml.GitYaml.read_yaml_file')
     def setUp(self, mock_read_yaml_file):
         mock_read_yaml_file.return_value = return_value="""modules:
   nagiosmonitor_checkldap:
@@ -148,7 +148,6 @@ class git_to_yaml(unittest.TestCase):
                         }
         result_dict = self.git_yaml.append_dict_to_dicts(data, updated_data)
         self.assertEqual(result_dict, expected_dict)
-
 
 
     # def test_output_string(self):
