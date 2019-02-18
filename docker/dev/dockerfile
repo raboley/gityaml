@@ -24,7 +24,7 @@ RUN chmod +x /usr/local/bin/test.sh
 
 # Set defaults for entrypoint and command string
 ENTRYPOINT ["test.sh"]
-CMD ["nosetests"] 
+CMD ["nosetests","--verbosity=2","--nologcapture","--with-xunit","--xunit-file","/reports/nosetests.xml","--with-coverage","--cover-xml","--cover-xml-file=/reports/coverage.xml","--with-spec","--spec-color"] 
 #,"--with-xunit","--xunit-file","reports/nosetests.xml"
 
 # Add application source

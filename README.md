@@ -58,3 +58,11 @@ docker run --rm gityaml-dev
 ```
 
 This will run the dev image and execute the unit tests. You should see an output of all the tests that passed and failed.
+
+To view the xml xunit test report mount the reports volume to somewhere on your local computer. For example:
+
+``` powershell
+docker run --rm -v C:\Users\rboley\Desktop\git\azure_devops\git_to_yaml\reports:/reports gityaml-dev
+```
+
+the `-v` means volume, which mounts the container drive to a place on your computer to be accessible, then the left hand side of the `:` is the local laptop location, and the right hand side is the container location. In the `dev\dockerfile` there is an explicit volume created called reports, and then in the cmd the nosetests.xml file is specified to be output in that reports directory. then by mapping it to your local computer it will show up there.
