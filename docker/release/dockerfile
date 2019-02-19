@@ -1,4 +1,4 @@
-FROM rboley/python-base:latest
+FROM raboley/python-base:latest
 MAINTAINER Russell Boley <rboley@huronconsultinggroup.com>
 
 VOLUME /git

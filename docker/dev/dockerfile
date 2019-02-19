@@ -1,4 +1,4 @@
-FROM rboley/python-base:latest
+FROM raboley/python-base:latest
 MAINTAINER Russell Boley <rboley@huronconsultinggroup.com>
 
 # Install dev/build dependencies
@@ -33,4 +33,4 @@ RUN chmod -R -x /application
 
 # run from root Git_to_yaml folder
 # docker build -t gityaml-dev -f docker/dev/dockerfile .
-# docker run --rm gityaml-dev
+# docker run --rm -v C:\Users\rboley\Desktop\git\azure_devops\git_to_yaml\reports:/reports gityaml-dev
