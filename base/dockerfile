@@ -15,15 +15,10 @@ RUN apt-get update \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3.6 python \
   && pip3 install --upgrade pip \
-  && pip3 install virtualenv
-
-# RUN apt-get update && \
-#     apt-get install -y \
-#     -o APT::Install-Recommend=false -o APT::Install-Suggests=false \
-#     python3 python-virtualenv \
-#     && cd /usr/local/bin \
-#     && ln -s /usr/bin/python3 python
-    
+  && pip3 install virtualenv \
+  && add-apt-repository ppa:git-core/ppa -y \
+  && apt-get update \
+  && apt-get install git -y
 
 # Create virtual environment
 # Upgrade PIP in virtual environment to latest version

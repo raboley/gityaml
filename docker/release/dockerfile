@@ -1,0 +1,20 @@
+FROM rboley/python-base:latest
+MAINTAINER Russell Boley <rboley@huronconsultinggroup.com>
+
+VOLUME /git
+
+VOLUME /control-repo
+
+ADD scripts/release.sh /usr/local/bin/release.sh
+RUN chmod +x /usr/local/bin/release.sh
+ENTRYPOINT ["release.sh"]
+
+CMD ["python3","gityaml/controller.py"]
+
+# docker build -t gityaml -f docker/release/dockerfile .
+# docker run --rm -v C:\Users\rboley\Desktop\git\azure_devops\nagiosmonitor_checkldap:/git -v C:\Users\rboley\Desktop\Puppet-Control:/control-repo gityaml
+
+# Add application source
+COPY src /application
+WORKDIR /application
+

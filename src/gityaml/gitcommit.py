@@ -3,13 +3,24 @@ import subprocess
 
 
 class GitCommit():
+
+    def __init__(self, path=""):
+        if path:
+            self.project_root = path
+        else:
+            self.project_root = os.getcwd()
+
+    def get_repo(self):
+        repo = os.path.join(self.project_root,'.git')
+        return repo
+
     def get_hash(self):
-        repo = os.listdir('.')[0]
+        repo = self.get_repo()
         sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo).decode('ascii').strip()
         return sha
 
     def get_url(self):
-        repo = os.listdir('.')[0]
+        repo = self.get_repo()
         url = subprocess.check_output(['git', 'remote', 'get-url','origin'], cwd=repo).decode('ascii').strip()
         return url
 
