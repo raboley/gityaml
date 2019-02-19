@@ -1,4 +1,4 @@
-FROM raboley/python-base:latest
+FROM raboley/gityaml-base:latest
 MAINTAINER Russell Boley <rboley@huronconsultinggroup.com>
 
 # Install dev/build dependencies
