@@ -6,6 +6,18 @@ This module is created with the intention of converting a git commit to yaml for
 
 This is allowed to be used on docker......
 
+If you don't have docker it can be run in python mode by running the module folder and passing in commit information. an example
+
+``` powershell
+python3 C:\Users\rboley\Desktop\git\azure_devops\git_to_yaml\src\gityaml 'repo_name' '1235456789' 'C:\Users\rboley\Desktop\git\azure_devops\git_to_yaml\src\gityaml\test.yaml'
+```
+
+the first argument `repo_name` is the git repository name that needs to have the commit reference made. For example the check_ldapmodule.
+
+Second is the commit reference that it should be pointing to next. this can be seen in the repo history, and is readily available in azure pipelines.
+
+Third is the path to the yaml file that should be updated. this should be the full path.
+
 ## Development Setup
 
 First your environment must have python and make.
