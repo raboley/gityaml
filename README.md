@@ -2,6 +2,10 @@
 
 This module is created with the intention of converting a git commit to yaml format. The ultimate goal is for this code to be used for puppet-control / puppet-core integrations. When a Puppet-Core module is updated, it will update the Puppetfile.yaml for the appropriate branch in Puppet-Control, and then kick of a puppet code deploy and puppet run for that environment. This will fully automate our puppet changes, and give full transparency of what is changing when just by looking at puppet-control.
 
+## How to use
+
+This is allowed to be used on docker......
+
 ## Development Setup
 
 First your environment must have python and make.
@@ -66,3 +70,4 @@ docker run --rm -v C:\Users\rboley\Desktop\git\azure_devops\git_to_yaml\reports:
 ```
 
 the `-v` means volume, which mounts the container drive to a place on your computer to be accessible, then the left hand side of the `:` is the local laptop location, and the right hand side is the container location. In the `dev\dockerfile` there is an explicit volume created called reports, and then in the cmd the nosetests.xml file is specified to be output in that reports directory. then by mapping it to your local computer it will show up there.
+

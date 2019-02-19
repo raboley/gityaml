@@ -47,7 +47,6 @@ class GitYaml():
     def yaml_to_data(self, yaml_string):
         result_data = yaml.load(yaml_string)
         return result_data
-
             
     def data_to_yaml(self, data):
         """convert a dictionary of dictionaies to yaml string
@@ -77,24 +76,4 @@ class GitYaml():
         result_yaml = yaml.dump(data, default_flow_style=False)
         return result_yaml
 
-
-
-
-
-
-
-# def output_yaml_string():
-#     return ''
-
-# def convert_git_checkin_to_yaml(ref, module, uri):
-#     return ref + module + uri
-
-if __name__ == '__main__':
-    data = { 'modules': 
-            { 'nagiosmonitor_checkldap': 
-                { 'git': 'hurontfs@vs-ssh.visualstudio.com:v3/hurontfs/Puppet-Core/nagiosmonitor_checkldap',
-                'ref': '59bf2d9045688a75cd22f02b9fe5493d276ab5d7' 
-            }
-            }
-        }
-    dict_to_yaml(data)
+#if __name__ == '__main__':

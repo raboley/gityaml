@@ -1,0 +1,64 @@
+resources:
+- repo: self
+
+pool:
+  vmImage: Hosted Ubuntu 1604
+steps:
+- task: Docker@1
+  displayName: 'Build gityaml-dev image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'z_RAB_dockerhub'
+    dockerFile: docker/dev/dockerfile
+    useDefaultContext: false
+    buildContext: '$(Build.Repository.LocalPath)'
+    imageName: '$(Build.Repository.Name)-dev'
+    includeLatestTag: true
+
+- task: Docker@1
+  displayName: 'Run an image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'z_RAB_dockerhub'
+    command: 'Run an image'
+    imageName: '$(Build.Repository.Name)-dev'
+    qualifyImageName: false
+    volumes: '$(Common.TestResultsDirectory):/reports'
+    runInBackground: false
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/nosetests.xml'
+  inputs:
+    testResultsFiles: '**/nosetests.xml'
+    searchFolder: '$(Common.TestResultsDirectory)'
+  condition: succeededOrFailed()
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage from coverage.xml'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: coverage.xml
+    reportDirectory: '$(Common.TestResultsDirectory)'
+  continueOnError: true
+  condition: succeededOrFailed()
+
+- task: Docker@1
+  displayName: 'Build the release image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'z_RAB_dockerhub'
+    dockerFile: docker/release/dockerfile
+    useDefaultContext: false
+    buildContext: '$(Build.Repository.LocalPath)'
+    imageName: 'raboley/$(Build.Repository.Name):$(Build.BuildId)'
+    includeSourceTags: true
+    includeLatestTag: true
+
+- task: Docker@1
+  displayName: 'Push the release image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'z_RAB_dockerhub'
+    command: 'Push an image'
+    imageName: 'raboley/$(Build.Repository.Name):$(Build.BuildId)'
+
