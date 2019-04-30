@@ -1,10 +1,37 @@
 # Git to YAML
 
-This module is created with the intention of converting a git commit to yaml format. The ultimate goal is for this code to be used for puppet-control / puppet-core integrations. When a Puppet-Core module is updated, it will update the Puppetfile.yaml for the appropriate branch in Puppet-Control, and then kick of a puppet code deploy and puppet run for that environment. This will fully automate our puppet changes, and give full transparency of what is changing when just by looking at puppet-control.
+This module is created with the intention of converting a git commit to yaml format. The metadata
+from the git commit will be used to generate a yaml style item that can create a yaml file, or
+append that entry to an already existing file. If we just checked in the `nsclient` module in puppet-core The end result should look something like this:
+
+``` yaml
+# puppetfile.yaml
+modules:
+  vscode:
+    git: hurontfs@vs-ssh.visualstudio.com:v3/hurontfs/Puppet-Core/vscode
+    ref: ab8a3d56d3c9ef957849206026de1dbaae050153
+  nsclient:
+    git: hurontfs@vs-ssh.visualstudio.com:v3/hurontfs/Puppet-Core/nsclient
+    ref: as1e53gs8a74e35g4hyf53jki1ghk38gf7k531fg
+```
+
+This app adds an nsclient element in the `puppetfile.yaml` file with the new module
+name, repo location (git) and commit hash (ref). Every update for that module from now 
+on will update the ref to the most recent commit hash for that environment. The regular 
+`Puppetfile` will then pick up this new entry and create a `mod <modulename>` statement dynamically
+that will update the puppet-control repo to the most recent version. 
+
+The ultimate goal is for this code to be used for puppet-control / puppet-core integrations. 
+When a Puppet-Core module is updated, it will update the Puppetfile.yaml for the 
+appropriate branch in Puppet-Control, 
+and then kick of a puppet code deploy and puppet run for that environment. 
+This will fully automate our puppet changes, and give full transparency of 
+what is changing when just by looking at puppet-control.
 
 ## How to use
 
-This is allowed to be used on docker......
+To use Run the full container this module the computer running it needs to have docker installed,
+and to just run the source code python 3.0 or higher needs to be installed.
 
 If you don't have docker it can be run in python mode by running the module folder and passing in commit information. an example
 
@@ -38,7 +65,12 @@ After installing those development tools, you can setup the project using:
 make setup
 ```
 
-That will create a virtual python environment and install all package dependencies in it. It should also activate the virtual environment in your terminal, so it should now have a (env) at the left, indicating you are in the virtual environment. Virtual environments let you install python packages in a contained environment so that you don't have packages of different versions on your machine interfering with your current development.
+That will create a virtual python environment and install all package dependencies in it. 
+It should also activate the virtual environment in your terminal, 
+so it should now have a (env) at the left, indicating you are in the virtual environment. 
+Virtual environments let you install python packages in a contained environment so that you 
+don't have packages of different versions on your machine interfering with your current 
+development.
 
 ## Docker building and setup
 
@@ -53,7 +85,7 @@ cd base
 docker build -t rboley/python-base .
 ```
 
-That will create the base image namded rboley/python-base. then to create the dev image.
+That will create the base image named rboley/python-base. then to create the dev image.
 
 ### Dev image setup
 
